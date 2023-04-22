@@ -70,3 +70,9 @@ func main() {
 }
 
 ```
+# Supported
+- [x] support imperative type
+- [x] support if src name is not same as the dest (src.FiledID  > src.FiledId)
+- [x] support nil slice nil
+- [x] support nil object
+- [x] support nil imperative type
