@@ -80,7 +80,7 @@ func TestMapStruct(t *testing.T) {
 			},
 		}
 		var dest []DestStruct22
-		MapSlice(src, &dest)
+		CopySlice(src, &dest)
 		if len(dest) != 2 || dest[0].FieldA != "Test" || *dest[0].FieldB != 123 || dest[0].FieldC != "" || dest[1].FieldA != "Test2" || *dest[1].FieldB != 456 || dest[1].FieldC != "" {
 			t.Errorf("Expected dest to be %+v, but got %+v", []DestStruct{{FieldA: &src[0].FieldA, FieldB: src[0].FieldB, FieldC: ""}, {FieldA: &src[1].FieldA, FieldB: src[1].FieldB, FieldC: ""}}, dest)
 		}
@@ -144,7 +144,7 @@ func TestMapSlice(t *testing.T) {
 		},
 	}
 	var dest []DestSliceStruct
-	MapSlice(src, &dest)
+	CopySlice(src, &dest)
 	if len(dest) != 2 || *dest[0].FieldA != "Test" || dest[0].FieldB != 123 || dest[0].FieldC != "" || *dest[1].FieldA != "Test2" || dest[1].FieldB != 456 || dest[1].FieldC != "" {
 		t.Errorf("Expected dest to be %+v, but got %+v", []DestStruct{{FieldA: &src[0].FieldA, FieldB: src[0].FieldB, FieldC: ""}, {FieldA: &src[1].FieldA, FieldB: src[1].FieldB, FieldC: ""}}, dest)
 	}
@@ -164,7 +164,7 @@ func Test_ptrString(t *testing.T) {
 		},
 	}
 	var dest []DestStruct
-	MapSlice(src, &dest)
+	CopySlice(src, &dest)
 	if len(dest) != 2 || *dest[0].FieldA != "Test" || dest[0].FieldB != 123 || dest[0].FieldC != "Hello" || *dest[1].FieldA != "Test2" || dest[1].FieldB != 456 || dest[1].FieldC != "World" {
 		t.Errorf("Expected dest to be %+v, but got %+v", []DestStruct{{FieldA: &src[0].FieldA, FieldB: src[0].FieldB, FieldC: *src[0].FieldC}, {FieldA: &src[1].FieldA, FieldB: src[1].FieldB, FieldC: *src[1].FieldC}}, dest)
 	}
@@ -224,7 +224,7 @@ func Test_MapStruct(t *testing.T) {
 	}
 	dest := Dst{}
 
-	MapStruct(src, &dest)
+	Copy(src, &dest)
 	assert.Equal(t, isEqual(src, dest), true)
 }
 
@@ -269,7 +269,7 @@ func Test_MapStructWithNil(t *testing.T) {
 	}
 	dest := Dst2{}
 
-	MapStruct(src, &dest)
+	Copy(src, &dest)
 	assert.Equal(t, isEqual2(src, dest), true)
 }
 
@@ -310,7 +310,7 @@ func Test_MapStructWithNestedStruct(t *testing.T) {
 	}
 	dest := Dst3{}
 
-	MapStruct(src, &dest)
+	Copy(src, &dest)
 	assert.Equal(t, isEqual3(src, dest), true)
 }
 
@@ -336,7 +336,7 @@ func Test_MapStructWithNestedNilObject(t *testing.T) {
 
 	var dest DestStruct1
 
-	MapStruct(src, &dest)
+	Copy(src, &dest)
 	assert.Equal(t, src.User.Name, dest.User.Name)
 }
 

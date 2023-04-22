@@ -1,11 +1,10 @@
 package nilmapper
 
 import (
-	"fmt"
 	"reflect"
 )
 
-// The MapSlice function maps a slice of source struct values to a slice of
+// The CopySlice function maps a slice of source struct values to a slice of
 // destination struct values.
 // It takes two parameters - source and destination - both of which are interfaces.
 // The source parameter should be a slice of structs, while the destination parameter
@@ -48,7 +47,7 @@ import (
 //		}
 //
 //		var dest []DestStruct
-//		MapSlice(src, &dest)
+//		CopySlice(src, &dest)
 //
 //		fmt.Println(dest[0].FieldA, dest[0].FieldB, dest[0].FieldC)
 //		fmt.Println(dest[1].FieldA, dest[1].FieldB, dest[1].FieldC)
@@ -57,7 +56,7 @@ import (
 //		// Test2 456 Value
 //	}
 
-func MapSlice(source interface{}, destination interface{}) {
+func CopySlice(source interface{}, destination interface{}) {
 	srcValue := reflect.ValueOf(source)
 	destValue := reflect.ValueOf(destination).Elem()
 	mapSlice(srcValue, destValue)
@@ -78,7 +77,7 @@ func mapSlice(srcValue reflect.Value, destValue reflect.Value) {
 	destValue.Set(destSlice)
 }
 
-// MapStruct maps the fields of a source struct or slice to a destination struct or slice.
+// Copy maps the fields of a source struct or slice to a destination struct or slice.
 // If nested is true, it recursively maps nested structs or slices.
 //
 // Example usage:
@@ -102,11 +101,11 @@ func mapSlice(srcValue reflect.Value, destValue reflect.Value) {
 //	}
 //
 //	var dest DestStruct
-//	MapStruct(src, &dest)
+//	Copy(src, &dest)
 //
 //	fmt.Println(dest.FieldA, dest.FieldB, dest.FieldC)
 //	// Output: Test1 123 ""
-func MapStruct(source interface{}, destination interface{}) {
+func Copy(source interface{}, destination interface{}) {
 	mapStruct(source, destination, false)
 }
 
@@ -181,8 +180,11 @@ func mapStruct(source interface{}, destination interface{}, nested bool) {
 						destFieldValue.Set(newDestValue.Elem())
 
 					} else {
-						fmt.Println(srcFieldType.String(), destFieldType.String())
-						destFieldValue.Set(newDestValue)
+						if newDestValue.Kind() == reflect.Ptr {
+							destFieldValue.Set(newDestValue.Elem())
+						} else {
+							destFieldValue.Set(newDestValue)
+						}
 
 					}
 				} else if srcFieldType.Kind() == reflect.Slice {

@@ -33,7 +33,7 @@ func main() {
 	}
 
 	var dest DestStruct
-	nilmapper.MapStruct(src, &dest)
+	nilmapper.Copy(src, &dest)
 
 	fmt.Println(dest.FieldA, dest.FieldB, dest.FieldC)
 	//Output: Test1 123""
@@ -52,7 +52,7 @@ func main() {
 	}
 
 	var destSlice []DestStruct
-	nilmapper.MapSlice(srcSlice, &destSlice)
+	nilmapper.CopySlice(srcSlice, &destSlice)
 
 	fmt.Println(*destSlice[0].FieldA, destSlice[0].FieldB, destSlice[0].FieldC)
 	fmt.Println(*destSlice[1].FieldA, destSlice[1].FieldB, destSlice[1].FieldC)
