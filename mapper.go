@@ -171,7 +171,7 @@ func mapStruct(source interface{}, destination interface{}, nested bool) {
 				if srcFieldType.Kind() == reflect.Struct {
 					newDestValue := reflect.New(destFieldType)
 					mapStruct(srcFieldValue.Interface(), newDestValue.Interface(), true)
-					//assignStructField(destFieldValue, newDestValue.Elem())
+					assignStructField(destFieldValue, newDestValue.Elem())
 				} else if srcFieldType.Kind() == reflect.Slice {
 					srcSlice := srcFieldValue
 
@@ -217,7 +217,7 @@ func assignStructField(destFieldValue reflect.Value, newDestValue reflect.Value)
 		destFieldValue = destFieldValue.Elem()
 		destFieldValue.Set(newDestValue.Elem())
 	} else {
-		destFieldValue.Set(newDestValue.Elem())
+		destFieldValue.Set(newDestValue)
 	}
 }
 
@@ -351,9 +351,7 @@ func assignValue(destFieldValue reflect.Value, srcFieldValue reflect.Value) {
 		if srcFieldValue.Kind() == reflect.Ptr {
 			destFieldValue.Set(srcFieldValue.Elem())
 		} else {
-			if destFieldValue.CanSet() {
-				destFieldValue.Set(srcFieldValue)
-			}
+			destFieldValue.Set(srcFieldValue)
 		}
 	}
 }

@@ -313,6 +313,33 @@ func Test_MapStructWithNestedStruct(t *testing.T) {
 	MapStruct(src, &dest)
 	assert.Equal(t, isEqual3(src, dest), true)
 }
+
+type SourceStruct1 struct {
+	User User
+}
+type User struct {
+	Name string
+}
+type User2 struct {
+	Name string
+}
+type DestStruct1 struct {
+	User User
+}
+
+func Test_MapStructWithNestedNilObject(t *testing.T) {
+	src := SourceStruct1{
+		User: User{
+			Name: "NilMapper",
+		},
+	}
+
+	var dest DestStruct1
+
+	MapStruct(src, &dest)
+	assert.Equal(t, src.User.Name, dest.User.Name)
+}
+
 func isEqual(src Src, dst Dst) bool {
 	return src.I64 == dst.I64 &&
 		src.Name == dst.Name &&

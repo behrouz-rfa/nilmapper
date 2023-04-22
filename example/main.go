@@ -9,12 +9,16 @@ type SourceStruct struct {
 	FieldA string
 	FieldB int
 	FieldC *string
+	Object Object
 }
-
+type Object struct {
+	Name string
+}
 type DestStruct struct {
 	FieldA *string
 	FieldB int
 	FieldC string
+	Object *Object
 }
 
 func main() {
@@ -23,6 +27,9 @@ func main() {
 		FieldA: "Test1",
 		FieldB: 123,
 		FieldC: nil,
+		Object: Object{
+			Name: "NilMapper",
+		},
 	}
 
 	var dest DestStruct
