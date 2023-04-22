@@ -340,6 +340,30 @@ func Test_MapStructWithNestedNilObject(t *testing.T) {
 	assert.Equal(t, src.User.Name, dest.User.Name)
 }
 
+type CreatePlant struct {
+	Title                string
+	ProductionLicenseID  string
+	ProductionLocationID string
+}
+type CreatePlanRequest struct {
+	Title                string
+	ProductionLicenseId  string
+	ProductionLocationId string
+}
+
+func Test_MapStructWithNestedGrpc(t *testing.T) {
+	src := CreatePlanRequest{
+		Title:                "sada",
+		ProductionLicenseId:  "asd",
+		ProductionLocationId: "asd",
+	}
+
+	var dest CreatePlant
+
+	Copy(src, &dest)
+	assert.Equal(t, src.Title, dest.Title)
+}
+
 func isEqual(src Src, dst Dst) bool {
 	return src.I64 == dst.I64 &&
 		src.Name == dst.Name &&

@@ -2,6 +2,7 @@ package nilmapper
 
 import (
 	"reflect"
+	"strings"
 )
 
 // The CopySlice function maps a slice of source struct values to a slice of
@@ -143,7 +144,15 @@ func mapStruct(source interface{}, destination interface{}, nested bool) {
 
 		destFieldValue := destValue.FieldByName(name)
 		if !destFieldValue.IsValid() {
-			continue
+			destFieldValue = destValue.FieldByNameFunc(func(s string) bool {
+				if strings.ToLower(s) == strings.ToLower(name) {
+					return true
+				}
+				return false
+			})
+			if !destFieldValue.IsValid() {
+				continue
+			}
 		}
 		if !destFieldValue.CanSet() {
 			continue
