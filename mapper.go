@@ -145,6 +145,9 @@ func mapStruct(source interface{}, destination interface{}, nested bool) {
 		if !destFieldValue.IsValid() {
 			continue
 		}
+		if !destFieldValue.CanSet() {
+			continue
+		}
 		//destFieldValue := destValue.Field(i)
 
 		srcFieldType := srcFieldValue.Type()
