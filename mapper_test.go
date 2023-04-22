@@ -344,18 +344,23 @@ type CreatePlant struct {
 	Title                string
 	ProductionLicenseID  string
 	ProductionLocationID string
+	M                    map[string]interface{}
 }
 type CreatePlanRequest struct {
 	Title                string
 	ProductionLicenseId  string
 	ProductionLocationId string
+	M                    map[string]interface{}
 }
 
 func Test_MapStructWithNestedGrpc(t *testing.T) {
+	m := make(map[string]interface{})
+	m["test"] = "test"
 	src := CreatePlanRequest{
 		Title:                "sada",
 		ProductionLicenseId:  "asd",
 		ProductionLocationId: "asd",
+		M:                    m,
 	}
 
 	var dest CreatePlant
