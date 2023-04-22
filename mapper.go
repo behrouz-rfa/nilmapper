@@ -348,7 +348,9 @@ func assignValue(destFieldValue reflect.Value, srcFieldValue reflect.Value) {
 		if srcFieldValue.Kind() == reflect.Ptr {
 			destFieldValue.Set(srcFieldValue.Elem())
 		} else {
-			destFieldValue.Set(srcFieldValue)
+			if destFieldValue.CanSet() {
+				destFieldValue.Set(srcFieldValue)
+			}
 		}
 	}
 }
