@@ -1,9 +1,19 @@
 # nilmapper
-A simple and easy go tools for auto mapper  struct to struct, that support nil
-MapStruct maps the fields of a source struct or slice to a destination struct or slice.
-If nested is true, it recursively maps nested structs or slices.
 
-Example usage:
+nilmapper is a Go library that provides a way to
+map values from one struct to another, while also handling nil values.
+
+# Installation
+
+To use nilmapper in your Go project, you can simply run:
+
+```
+go get github.com/behrouz-rfa/nilmapper
+```
+
+# Usage
+Here's a simple example of how you can use nilmapper to map values from one struct to another
+
 ```go
 package main
 
@@ -70,7 +80,24 @@ func main() {
 }
 
 ```
+In this example, we have two structs, Source and Destination, with different fields.
+We want to map values from Source to Destination, but since the types of the fields
+are different, we need to use nilmapper to handle the mapping.
+To do this, we call the Map function and pass in the source and destination structs 
+as arguments. Map will map the values from Source to Destination, taking 
+care of nil values in the process.
+
+# Contributing
+If you find a bug or have a feature request, please open an issue on the GitHub repository.
+Pull requests are also welcome! If you would like to contribute to nilmapper, 
+please fork the repository and create a new branch for your changes. Once you have 
+made your changes, submit a pull request and I will review your changes as soon as possible.
+
+# License
+nilmapper is licensed under the MIT License. See LICENSE for more information.
+
 # Supported
+
 - [x] support imperative type
 - [x] support if src name is not same as the dest (src.FiledID  > src.FiledId)
 - [x] support nil slice nil
