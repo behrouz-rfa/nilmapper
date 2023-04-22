@@ -1,6 +1,7 @@
 package nilmapper
 
 import (
+	"fmt"
 	"reflect"
 )
 
@@ -171,7 +172,19 @@ func mapStruct(source interface{}, destination interface{}, nested bool) {
 				if srcFieldType.Kind() == reflect.Struct {
 					newDestValue := reflect.New(destFieldType)
 					mapStruct(srcFieldValue.Interface(), newDestValue.Interface(), true)
-					assignStructField(destFieldValue, newDestValue.Elem())
+					//assignStructField(destFieldValue, newDestValue.Elem(), destFieldType)
+					if destFieldValue.Kind() == reflect.Ptr {
+						if destFieldValue.IsNil() {
+							destFieldValue.Set(newDestValue)
+						}
+						destFieldValue = destFieldValue.Elem()
+						destFieldValue.Set(newDestValue.Elem())
+
+					} else {
+						fmt.Println(srcFieldType.String(), destFieldType.String())
+						destFieldValue.Set(newDestValue)
+
+					}
 				} else if srcFieldType.Kind() == reflect.Slice {
 					srcSlice := srcFieldValue
 
@@ -209,8 +222,9 @@ func mapStruct(source interface{}, destination interface{}, nested bool) {
 	}
 }
 
-func assignStructField(destFieldValue reflect.Value, newDestValue reflect.Value) {
+func assignStructField(destFieldValue reflect.Value, newDestValue reflect.Value, fieldType reflect.Type) {
 	if destFieldValue.Kind() == reflect.Ptr {
+		newDestValue := reflect.New(fieldType)
 		if destFieldValue.IsNil() {
 			destFieldValue.Set(newDestValue)
 		}
